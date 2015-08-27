@@ -1,0 +1,11 @@
+{
+  "name": "raaainbow",
+  "version": "1.0.0",
+  "description": "Raaainbows!",
+  "main": "main.js",
+  "keywords": [
+    ""
+  ],
+  "author": "Greg Walker <raaainbow@darkcooger.net>",
+  "license": "ISC"
+}

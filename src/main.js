@@ -5,6 +5,7 @@ const path = require("path");
 const program = require("commander");
 const chalk = require("chalk");
 const pkgJson = require("../package.json");
+const pos = require("cli-position");
 
 const modes = Object.create(null);
 
@@ -45,4 +46,9 @@ fs.readdir(path.join(__dirname, "/modes/"), (err, files) => {
 		console.log(`\x1b[2J`);
 		modes[program.mode]();
 	}
+	
+	process.on("exit", () => {
+		console.log('`\x1b[m\x1b[2J');
+		pos.moveTo(0, 0);
+	});
 });

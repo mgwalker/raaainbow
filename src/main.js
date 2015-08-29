@@ -1,84 +1,61 @@
 #!/usr/bin/env node
 
-const x256 = require("x256");
+const fs = require("fs");
+const path = require("path");
+const program = require("commander");
+const chalk = require("chalk");
+const pkgJson = require("../package.json");
 
-const distinctColors = new Set();
-const colors = [ ];
+const fullscreen = require("./modes/fullscreen");
+const modes = Object.create(null);
+modes[fullscreen.name] = fullscreen.run;
 
-for(let i = 0; i < 256; i++) {
-	const color = x256(255, i, 0);
-	if(!distinctColors.has(color)) {
-		distinctColors.add(color);
-		colors.push(color);
-		//console.log(`\x1b[48;5;${color}m     \x1b[0;m`);
+fs.readdir(path.join(__dirname, "/modes/"), (err, files) => {
+	for(let file of files) {
+		if(file.substr(-3, 3) === ".js") {
+			try {
+				const mode = require(`./modes/${file}`);
+				if(mode.name && typeof mode.name === "string" && mode.name !== fullscreen.name && typeof mode.run === "function") {
+					modes[mode.name] = mode.run;
+				}
+			} catch(e) { console.log(e); }
+		}
 	}
-}
-
-for(let i = 255; i >= 0; i--) {
-	const color = x256(i, 255, 0);
-	if(!distinctColors.has(color)) {
-		distinctColors.add(color);
-		colors.push(color);
-		//console.log(`\x1b[48;5;${color}m     \x1b[0;m`);
+	
+	let modeNames = [ ];
+	for(let mode in modes) {
+		modeNames.push(mode);
 	}
-}
-
-for(let i = 0; i < 256; i++) {
-	const color = x256(0, 255, i);
-	if(!distinctColors.has(color)) {
-		distinctColors.add(color);
-		colors.push(color);
-		//console.log(`\x1b[48;5;${color}m     \x1b[0;m`);
+	modeNames = modeNames.join(", ");
+	
+	program
+		.version(pkgJson.version)
+		.option("-m --mode [name]", `The raaainbow mode to run.  Available modes are ${modeNames}`)
+		.parse(process.argv);
+	
+	if(!program.mode) {
+		program.mode = fullscreen.name;
 	}
-}
-
-for(let i = 255; i >= 0; i--) {
-	const color = x256(0, i, 255);
-	if(!distinctColors.has(color)) {
-		distinctColors.add(color);
-		colors.push(color);
-		///console.log(`\x1b[48;5;${color}m     \x1b[0;m`);
+	
+	if(!modes[program.mode]) {
+		console.log();
+		console.log(chalk.bgRed(`  Unsupported mode "${program.mode}"`));
+		program.help();		
+	} else {
+		modes[program.mode]();
 	}
-}
+});
 
-for(let i = 0; i < 256; i++) {
-	const color = x256(i, 0, 255);
-	if(!distinctColors.has(color)) {
-		distinctColors.add(color);
-		colors.push(color);
-		//console.log(`\x1b[48;5;${color}m     \x1b[0;m`);
-	}
-}
+/*
+program
+	.version(pkgJson.version)
+	.option("-m --mode [name]", "The raaainbow mode to run.  Available modes are fullscreen (default), ")
+	.parse(process.argv);
+	
+console.log(program.mode);
+//program.help();
 
-for(let i = 255; i >= 0; i--) {
-	const color = x256(255, 0, i);
-	if(!distinctColors.has(color)) {
-		distinctColors.add(color);
-		colors.push(color);
-		//console.log(`\x1b[48;5;${color}m     \x1b[0;m`);
-	}
-}
+//process.exit();
 
-function getRowOfColors(rowNumber) {
-	let str = "";
-	for(let i = 0; i < process.stdout.columns; i++) {
-		let color = colors[(i + rowNumber) % colors.length];
-		str += `\x1b[48;5;${color}m \x1b[0;m`;
-	}
-	return str;
-}
-
-/*let row = 0;
-setInterval(() => {
-	console.log(getRowOfColors(row++));
-}, 100);
+require("./modes/fullscreen")();
 */
-
-let offset = 0;
-setInterval(() => {
-	console.log("\x1b[H");
-	for(var i = 0; i < process.stdout.rows - 2; i++) {
-		console.log(getRowOfColors(i + offset));
-	}
-	offset++;
-}, 30);

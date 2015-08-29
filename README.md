@@ -12,6 +12,8 @@ Note that a mode must be specified, and the help text will tell you what modes a
 npm start -- --mode circle
 ```
 
+![Screenshot](http://i.imgur.com/69kEYNz.gif)
+
 Before starting a node, the main script will clear the screen.  It will also clear the screen when the process exits.
 
 # Modes

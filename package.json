@@ -15,7 +15,8 @@
   ],
   "scripts": {
     "build": "babel --no-comments --compact -d bin src",
-    "prebuild": "eslint --env node,es6 bin/*.js"
+    "prebuild": "eslint --env node,es6 bin/*.js",
+    "start": "node bin/main.js"
   },
   "author": "Greg Walker <raaainbow@darkcooger.net>",
   "license": "ISC",

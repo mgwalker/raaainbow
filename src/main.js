@@ -30,7 +30,7 @@ fs.readdir(path.join(__dirname, "/modes/"), (err, files) => {
 	
 	program
 		.version(pkgJson.version)
-		.option("-m --mode [name]", `The raaainbow mode to run.  Available modes are ${modeNames}`)
+		.option("-m --mode [name]", `The raaainbow mode to run.  Available modes are: ${modeNames}`)
 		.parse(process.argv);
 	
 	if(!program.mode) {
@@ -42,20 +42,8 @@ fs.readdir(path.join(__dirname, "/modes/"), (err, files) => {
 		console.log(chalk.bgRed(`  Unsupported mode "${program.mode}"`));
 		program.help();		
 	} else {
+		require("cli-cursor").hide();
+		console.log(`\x1b[2J`);
 		modes[program.mode]();
 	}
 });
-
-/*
-program
-	.version(pkgJson.version)
-	.option("-m --mode [name]", "The raaainbow mode to run.  Available modes are fullscreen (default), ")
-	.parse(process.argv);
-	
-console.log(program.mode);
-//program.help();
-
-//process.exit();
-
-require("./modes/fullscreen")();
-*/

@@ -20,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^1.1.1",
+    "cli-cursor": "^1.0.1",
     "commander": "^2.8.1",
     "x256": "0.0.2"
   },

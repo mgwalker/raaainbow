@@ -25,6 +25,7 @@
     "cli-cursor": "^1.0.1",
     "cli-position": "^1.0.0",
     "commander": "^2.8.1",
+    "linear-scale": "0.0.1",
     "x256": "0.0.2"
   },
   "devDependencies": {

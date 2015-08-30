@@ -23,7 +23,7 @@ module.exports = {
 			let yOffset = Math.round(Math.cos(angle) * radius);
 			pos.moveLeft(xOffset).moveUp(yOffset);
 
-			process.stdout.write(`${colors[colorIndex % colors.length]}m `);
+			process.stdout.write(`${colors[colorIndex % colors.length]} `);
 			
 			angle += 0.04;
 			colorIndex++;

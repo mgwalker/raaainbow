@@ -50,6 +50,6 @@ for(let i = 255; i >= 0; i--) {
 	}
 }
 
-const ansiColors = colors.map(c => `\x1b[48;5;${c}`);
+const ansiColors = colors.map(c => `\x1b[48;5;${c}m`);
 
 module.exports = ansiColors;

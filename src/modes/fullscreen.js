@@ -4,7 +4,7 @@ function getRowOfColors(rowNumber) {
 	let str = "";
 	for(let i = 0; i < process.stdout.columns; i++) {
 		let color = colors[(i + rowNumber) % colors.length];
-		str += `${color}m \x1b[0;m`;
+		str += `${color} \x1b[0;m`;
 	}
 	return str;
 }

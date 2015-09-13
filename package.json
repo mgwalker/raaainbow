@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "build": "babel --no-comments --compact -d bin src",
-    "prebuild": "eslint --env node,es6 bin/*.js",
+    "prebuild": "cooger-style src/modes/*.js src/*.js",
     "start": "node bin/main.js"
   },
   "author": "Greg Walker <raaainbow@darkcooger.net>",
@@ -30,6 +30,6 @@
   },
   "devDependencies": {
     "babel": "^5.8.21",
-    "eslint": "^1.2.1"
+    "cooger-style": "^1.0.1"
   }
 }
